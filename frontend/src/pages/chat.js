@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import styles from './Chat.module.css'; // ✅ Import CSS module
 
 const Chat = () => {
   const [messages, setMessages] = useState([]);
@@ -13,24 +14,30 @@ const Chat = () => {
   };
 
   return (
-    <div style={{ padding: '20px', textAlign: 'center' }}>
-      <h2>Chat Room</h2>
-      <div style={{ border: '1px solid #ccc', padding: '10px', height: '200px', overflowY: 'scroll', marginBottom: '10px' }}>
-        {messages.map((msg, index) => (
-          <div key={index} style={{ textAlign: 'left', marginBottom: '5px' }}>{msg}</div>
-        ))}
+    <div className={styles.container}>
+      <div className={styles.card}>
+        <h2 className={styles.title}>Chat Room</h2>
+        <div className={styles.chatBox}>
+          {messages.map((msg, index) => (
+            <div key={index} className={styles.message}>
+              {msg}
+            </div>
+          ))}
+        </div>
+        <form className={styles.form} onSubmit={sendMessage}>
+          <input
+            className={styles.input}
+            type="text"
+            value={inputMsg}
+            onChange={e => setInputMsg(e.target.value)}
+            placeholder="Type a message"
+          />
+          <button className={styles.button} type="submit">Send</button>
+        </form>
       </div>
-      <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={inputMsg}
-          onChange={e => setInputMsg(e.target.value)}
-          placeholder="Type a message"
-        />
-        <button type="submit" style={{ marginLeft: '10px' }}>Send</button>
-      </form>
     </div>
   );
 };
 
 export default Chat;
+

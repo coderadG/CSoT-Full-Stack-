@@ -1,12 +1,17 @@
 // src/utils/api.js
 
-const API_BASE = "http://localhost:5000/api"; // your backend
+import axios from 'axios';
 
+const API_BASE = "http://localhost:5000/api"; // Backend base URL
+
+// 🔐 Login User
 export const loginUser = async (credentials) => {
-  const res = await fetch(`${API_BASE}/auth/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(credentials),
-  });
-  return res.json();
+  const response = await axios.post(`${API_BASE}/auth/login`, credentials);
+  return response.data; // Contains user + message
+};
+
+// 🧾 Register User
+export const registerUser = async (userData) => {
+  const response = await axios.post(`${API_BASE}/auth/register`, userData);
+  return response.data; // Contains message
 };
