@@ -36,4 +36,5 @@ backend/.env.*
 # Others
 .pnp
 .pnp.js
+backend/serviceAccountKey.json
 
