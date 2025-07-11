@@ -6,12 +6,16 @@
   align-items: center;
   padding: 40px 20px;
   min-height: 100vh;
-  background: linear-gradient(to right, #f7f7f7, #eaeaea);
+  background: linear-gradient(
+    to right,
+    var(--container-bg-start, #fefefe),
+    var(--container-bg-end, #f0f0f0)
+  );
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .card {
-  background-color: #ffffff;
+  background: var(--card-bg);
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
@@ -21,26 +25,28 @@
 
 .title {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text-color);
   text-align: center;
 }
 
 .chatBox {
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
   height: 250px;
   overflow-y: scroll;
   padding: 1rem;
   margin-bottom: 1rem;
-  background-color: #fdfdfd;
+  background-color: var(--chatbox-bg);
+  color: var(--message-text-color); /* 👈 Ensure text color applies */
 }
 
 .message {
   text-align: left;
   margin-bottom: 10px;
   padding: 8px 12px;
-  background-color: #e3f7e8;
+  background-color: var(--message-bg);
   border-radius: 8px;
+  color: var(--message-text-color); /* 👈 FIX: text now visible in both themes */
   max-width: 75%;
 }
 
@@ -53,15 +59,15 @@
   flex: 1;
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   font-size: 1rem;
 }
 
 .button {
   margin-left: 10px;
   padding: 10px 20px;
-  background-color: #28a745;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
   font-weight: bold;
   border: none;
   border-radius: 6px;
@@ -70,5 +76,5 @@
 }
 
 .button:hover {
-  background-color: #218838;
+  background-color: var(--primary-color-hover);
 }

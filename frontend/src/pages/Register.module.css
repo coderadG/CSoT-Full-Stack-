@@ -6,21 +6,26 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #fefefe, #f0f0f0);
+  /* Use variables for gradient backgrounds */
+  background: linear-gradient(
+    to right,
+    var(--container-bg-start, #fefefe),
+    var(--container-bg-end, #f0f0f0)
+  );
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .formCard {
-  background-color: #ffffff;
+  background-color: var(--card-bg, #ffffff);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* Can stay as is */
   width: 320px;
 }
 
 .title {
   margin-bottom: 1.5rem;
-  color: #222;
+  color: var(--text-color, #222);
 }
 
 .input {
@@ -28,15 +33,15 @@
   padding: 10px;
   margin-bottom: 1rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color, #ccc);
   font-size: 1rem;
 }
 
 .button {
   width: 100%;
   padding: 10px;
-  background-color: #28a745;
-  color: white;
+  background-color: var(--primary-color, #28a745);
+  color: var(--button-text-color, white);
   font-weight: bold;
   border: none;
   border-radius: 6px;
@@ -45,12 +50,12 @@
 }
 
 .button:hover {
-  background-color: #218838;
+  background-color: var(--primary-color-hover, #218838);
 }
 
 .link {
   margin-top: 1rem;
-  color: #007bff;
+  color: var(--link-color, #007bff);
   cursor: pointer;
   text-decoration: underline;
   font-size: 0.95rem;

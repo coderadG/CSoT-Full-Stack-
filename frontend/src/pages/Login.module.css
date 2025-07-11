@@ -1,26 +1,28 @@
-/* src/pages/Login.module.css */
-
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background: linear-gradient(to right, #f2f2f2, #e6e6e6);
+  background: linear-gradient(
+    to right,
+    var(--container-bg-start),
+    var(--container-bg-end)
+  );
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .formCard {
-  background-color: white;
+  background-color: var(--card-bg);
   padding: 2rem;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1); /* This can stay as is */
   width: 320px;
 }
 
 .title {
   margin-bottom: 1.5rem;
-  color: #333;
+  color: var(--text-color);
 }
 
 .input {
@@ -28,15 +30,15 @@
   padding: 10px;
   margin-bottom: 1rem;
   border-radius: 6px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border-color);
   font-size: 1rem;
 }
 
 .button {
   width: 100%;
   padding: 10px;
-  background-color: #28a745;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--button-text-color);
   font-weight: bold;
   border: none;
   border-radius: 6px;
@@ -45,12 +47,12 @@
 }
 
 .button:hover {
-  background-color: #218838;
+  background-color: var(--primary-color-hover);
 }
 
 .link {
   margin-top: 1rem;
-  color: #007bff;
+  color: var(--link-color);
   cursor: pointer;
   text-decoration: underline;
   font-size: 0.95rem;

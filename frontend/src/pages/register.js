@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { registerUser } from '../utils/api';
-import styles from './Register.module.css'; // ✅ Import CSS Module
+import { registerUser, loginUser } from '../utils/api';
+import { useAuth } from '../context/AuthContext';
+import styles from './Register.module.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      const data = await registerUser({ username, email, password });
-      alert(data.message);
-      navigate('/login');
+      // Step 1: Register the user
+      await registerUser({ username, email, password });
+      alert("Account created successfully!");
+
+      // Step 2: Auto-login after registration
+      const data = await loginUser({ email, password });
+      const { token, refreshToken, user } = data;
+
+      login({ token, refreshToken, user }); // ✅ Set tokens + user in context
+
+      // Step 3: Redirect to users list
+      navigate('/users');
     } catch (err) {
       const errorMessage = err.response?.data?.message || 'Registration failed';
       alert(errorMessage);

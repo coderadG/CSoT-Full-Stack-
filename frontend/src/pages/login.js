@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { loginUser } from '../utils/api';
-import styles from './Login.module.css'; // ✅ Import CSS module
+import { loginUser } from '../utils/api'; // loginUser is still a direct axios call
+import styles from './Login.module.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const { login } = useAuth();
+  const { login } = useAuth(); // context hook
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       const data = await loginUser({ email, password });
-      login(data);
-      alert(data.message);
-      navigate('/users'); // ✅ Go to user list first
 
+      const { token, refreshToken, user, message } = data;
+
+      // ✅ Save both access and refresh tokens in context
+      login({ token, refreshToken, user });
+
+      alert(message);
+      navigate(location.state?.from?.pathname || '/users');
     } catch (err) {
       alert(err.response?.data?.message || 'Login failed');
     }
@@ -47,10 +51,7 @@ const Login = () => {
         <button className={styles.button} type="submit">
           Login
         </button>
-        <p
-          className={styles.link}
-          onClick={() => navigate('/register')}
-        >
+        <p className={styles.link} onClick={() => navigate('/register')}>
           Don't have an account? Register
         </p>
       </form>
@@ -59,3 +60,4 @@ const Login = () => {
 };
 
 export default Login;
+
