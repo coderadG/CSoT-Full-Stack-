@@ -30,39 +30,38 @@ const UsersList = () => {
       fetchUsers();
     }
   }, [user]);
- 
+
   return (
-  <div className="users-container">
-    <div className="users-card">
-      
-      <div className="top-bar">
-        <span className="welcome-text">Welcome, {user?.username}</span>
-       
-      </div>
+    <div className="users-container">
+      <div className="users-card">
+        <div className="top-bar">
+          <span className="welcome-text">Welcome, {user?.username}</span>
+        </div>
 
-      <h2 className="main-heading">Choose someone to chat with:</h2>
+        <h2 className="main-heading">Choose someone to chat with:</h2>
 
-      <div style={{ marginTop: '1.5rem' }}>
-        {users.length === 0 ? (
-          <p>No other users found.</p>
-        ) : (
-          users.map(u => (
-            <div key={u._id} className="user-entry">
-              <span>{u.username}</span>
-              <button
-                className="chat-button"
-                onClick={() => navigate(`/chat/${u._id}`)}
-              >
-                Chat
-              </button>
-            </div>
-          ))
-        )}
+        <div style={{ marginTop: '1.5rem' }}>
+          {users.length === 0 ? (
+            <p>No other users found.</p>
+          ) : (
+            users.map(u => (
+              <div key={u._id} className="user-entry">
+                <span>{u.username}</span>
+                <button
+                  className="chat-button"
+                  // ✅ Pass username along with userId
+                  onClick={() => navigate(`/chat/${u._id}`, { state: { username: u.username } })}
+                >
+                  Chat
+                </button>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
-  </div>
-);
-
+  );
 };
 
 export default UsersList;
+

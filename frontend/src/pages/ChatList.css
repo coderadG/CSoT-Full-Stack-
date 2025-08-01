@@ -1,0 +1,68 @@
+.chatlist-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(
+    to right,
+    var(--container-bg-start, #fefefe),
+    var(--container-bg-end, #f0f0f0)
+  );
+}
+
+.chatlist-card {
+  background: var(--card-bg, #ffffff);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 350px;
+  text-align: center;
+}
+
+.chatlist-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.chatlist-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--text-color, #333);
+}
+
+.recent-chats-text {
+  color: #777;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.chat-entry {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color, #eee);
+  transition: background-color 0.2s ease;
+}
+
+.chat-entry:hover {
+  background-color: #f9f9f9;
+}
+
+.open-chat-button {
+  background-color: var(--primary-color, #2196F3);
+  color: var(--button-text-color, #fff);
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background-color 0.2s ease;
+}
+
+.open-chat-button:hover {
+  background-color: #388E3C;
+}

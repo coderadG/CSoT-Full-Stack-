@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Chat.module.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { database } from '../firebase';
 import { ref, push, onValue, update } from 'firebase/database';
@@ -9,14 +9,18 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [inputMsg, setInputMsg] = useState('');
   const { user } = useAuth();
-  const { userId: recipientId } = useParams(); // URL :userId
+  const { userId: recipientId } = useParams();
+  const location = useLocation();
 
+  const recipientName = location.state?.username || "Unknown User";
   const currentUserId = user?.uid;
+  const currentUserName = user?.username || "You";
 
-  // 📩 Send a new message to Firebase
+  // ✅ Send message (no change in this part)
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (!inputMsg.trim() || !currentUserId || !recipientId) return;
+    if (!inputMsg.trim()) return;
+    if (!currentUserId || !recipientId) return;
 
     const now = new Date();
 
@@ -34,41 +38,56 @@ const Chat = () => {
       const chatRef = ref(database, 'Chats');
       await push(chatRef, newMessage);
 
-      // ✅ Update Chatlist
-      const senderRef = ref(database, `Chatlist/${currentUserId}/${recipientId}`);
-      const receiverRef = ref(database, `Chatlist/${recipientId}/${currentUserId}`);
-
-      await update(senderRef, { id: recipientId });
-      await update(receiverRef, { id: currentUserId });
+      await update(ref(database, `Chatlist/${currentUserId}/${recipientId}`), {
+        id: recipientId,
+        username: recipientName
+      });
+      await update(ref(database, `Chatlist/${recipientId}/${currentUserId}`), {
+        id: currentUserId,
+        username: currentUserName
+      });
 
       setInputMsg('');
     } catch (err) {
-      console.error('Firebase message send error:', err);
+      console.error('❌ Firebase message send error:', err);
     }
   };
 
-  // 🔁 Real-time listener for messages
-  useEffect(() => {
-    const chatRef = ref(database, 'Chats');
-    const unsubscribe = onValue(chatRef, (snapshot) => {
+  // ✅ Load messages in real-time
+  const loadMessages = (partnerId) => {
+    const messagesRef = ref(database, 'Chats');
+    onValue(messagesRef, (snapshot) => {
       const data = snapshot.val();
-      if (!data) return;
-
-      const filtered = Object.values(data).filter(
-        msg =>
-          (msg.sender === currentUserId && msg.receiver === recipientId) ||
-          (msg.sender === recipientId && msg.receiver === currentUserId)
-      );
-      setMessages(filtered);
+      if (data) {
+        const myMessages = Object.entries(data)
+          .filter(([id, msg]) =>
+            (msg.sender === currentUserId && msg.receiver === partnerId) ||
+            (msg.sender === partnerId && msg.receiver === currentUserId)
+          )
+          .sort((a, b) =>
+            new Date(`${a[1].date} ${a[1].time}`) -
+            new Date(`${b[1].date} ${b[1].time}`)
+          )
+          .map(([id, msg]) => msg); // ✅ Only keep message object
+        setMessages(myMessages);
+      } else {
+        setMessages([]);
+      }
     });
+  };
 
-    return () => unsubscribe();
-  }, [currentUserId, recipientId]);
+  // ✅ Run listener whenever partner changes
+  useEffect(() => {
+    if (recipientId && currentUserId) {
+      loadMessages(recipientId);
+    }
+  }, [recipientId, currentUserId]);
 
   return (
     <div className={styles.container}>
       <div className={styles.card}>
-        <h2 className={styles.title}>Chat Room</h2>
+        <h2 className={styles.title}>Chat with {recipientName}</h2>
+
         <div className={styles.chatBox}>
           {messages.map((msg, index) => (
             <div key={index} className={styles.message}>
@@ -76,6 +95,7 @@ const Chat = () => {
             </div>
           ))}
         </div>
+
         <form className={styles.form} onSubmit={sendMessage}>
           <input
             className={styles.input}
@@ -84,7 +104,9 @@ const Chat = () => {
             onChange={(e) => setInputMsg(e.target.value)}
             placeholder="Type a message"
           />
-          <button className={styles.button} type="submit">Send</button>
+          <button className={styles.button} type="submit">
+            Send
+          </button>
         </form>
       </div>
     </div>
@@ -92,4 +114,7 @@ const Chat = () => {
 };
 
 export default Chat;
+
+
+
 

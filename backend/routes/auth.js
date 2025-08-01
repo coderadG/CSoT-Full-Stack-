@@ -5,7 +5,11 @@ const router = express.Router();
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const verifyToken = require('../middleware/verifyToken'); // ✅
+const verifyToken = require('../middleware/verifyToken');
+
+// ✅ Correct Firebase Admin import
+const { db } = require('../firebaseAdmin'); 
+
 
 /**
  * 🔐 Register Route
@@ -14,12 +18,28 @@ router.post('/register', async (req, res) => {
   console.log('Register route hit');
   try {
     const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const existingUser = await User.findOne({ email });
     if (existingUser) return res.status(400).json({ message: 'User already exists' });
 
     const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
-    await newUser.save();
+    const savedUser = await newUser.save();
+
+    // ✅ Sync new user to Firebase ChatUsers
+    await db.ref(`ChatUsers/${savedUser._id}`).set({
+    userId: savedUser._id.toString(),
+    username: savedUser.username,
+    email: savedUser.email,
+    status: "offline",
+    photo: "",
+    flag: "chat"
+    });
+
 
     res.status(201).json({ message: 'User registered successfully' });
   } catch (err) {
@@ -47,11 +67,14 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
     const refreshToken = jwt.sign(
-    { _id: user._id, email: user.email },
-    process.env.REFRESH_SECRET,
-    { expiresIn: '7d' } // refresh token
+      { _id: user._id, email: user.email },
+      process.env.REFRESH_SECRET,
+      { expiresIn: '7d' }
     );
-    
+
+    // ✅ Update status to online in Firebase
+    await db.ref(`ChatUsers/${user._id}`).update({ status: "online" });
+
 
     res.status(200).json({
       message: 'Login successful',
@@ -108,6 +131,12 @@ router.put('/profile', verifyToken, async (req, res) => {
     ).select('-password');
 
     if (!user) return res.status(404).json({ message: 'User not found' });
+
+    // ✅ Update username in Firebase as well
+    await update(ref(db, `ChatUsers/${req.user._id}`), {
+      username: user.username
+    });
+
     res.status(200).json({ message: 'Profile updated', user });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
@@ -121,6 +150,11 @@ router.delete('/profile', verifyToken, async (req, res) => {
   try {
     const deletedUser = await User.findByIdAndDelete(req.user._id);
     if (!deletedUser) return res.status(404).json({ message: 'User not found' });
+
+    // ✅ Remove user from Firebase
+    await db.ref(`ChatUsers/${req.user._id}`).remove();
+
+
     res.status(200).json({ message: 'User deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
@@ -139,10 +173,4 @@ router.post('/test', (req, res) => {
   res.send('POST test route works');
 });
 
-router.post('/*rest', (req, res) => {
-  console.log('Catch-all POST hit:', req.originalUrl);
-  res.status(404).json({ error: 'No POST route matched', url: req.originalUrl });
-});
-
 module.exports = router;
-

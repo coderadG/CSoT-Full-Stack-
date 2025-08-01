@@ -14,7 +14,7 @@ const Navbar = () => {
     navigate("/login");
   };
 
-  const hideLogout = ["/login", "/register"].includes(location.pathname);
+  const isAuthPage = ["/login", "/register"].includes(location.pathname);
 
   return (
     <nav
@@ -35,21 +35,29 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Middle: Navigation links (optional based on login) */}
+      {/* Middle: Navigation links */}
       <div>
-        {user && (
+        {user && !isAuthPage && (
           <>
             <Link
               to="/users"
-              style={{ marginRight: "1rem", textDecoration: "none", color: "inherit" }}
+              style={{
+                marginRight: "1rem",
+                textDecoration: "none",
+                color: "inherit",
+              }}
             >
               Users
             </Link>
             <Link
-              to="/chat/123"
-              style={{ textDecoration: "none", color: "inherit" }}
+              to="/recent-chats"
+              style={{
+                marginRight: "1rem",
+                textDecoration: "none",
+                color: "inherit",
+              }}
             >
-              Chat
+              Recent Chats
             </Link>
           </>
         )}
@@ -61,7 +69,7 @@ const Navbar = () => {
           {theme === "light" ? "🌙 Dark" : "☀️ Light"}
         </button>
 
-        {user && !hideLogout && (
+        {user && !isAuthPage && (
           <button onClick={handleLogout}>Logout</button>
         )}
 
@@ -69,7 +77,10 @@ const Navbar = () => {
           <button onClick={() => navigate("/login")}>Login</button>
         )}
         {!user && location.pathname !== "/register" && (
-          <button onClick={() => navigate("/register")} style={{ marginLeft: "0.5rem" }}>
+          <button
+            onClick={() => navigate("/register")}
+            style={{ marginLeft: "0.5rem" }}
+          >
             Register
           </button>
         )}
@@ -79,4 +90,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

@@ -1,8 +1,8 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';  
+import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext'; // 🟢 Add this line
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -12,10 +12,13 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <ThemeProvider> {/* 🟢 Wrap App inside ThemeProvider */}
+          <App />
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>
 );
 
 reportWebVitals();
+

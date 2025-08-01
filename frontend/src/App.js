@@ -5,6 +5,7 @@ import Login from "./pages/login";
 import Register from "./pages/register";
 import Chat from "./pages/chat";
 import UsersList from "./pages/UsersList";
+import ChatList from "./pages/ChatList";   // ✅ Import ChatList
 import ProtectedRoute from "./components/ProtectedRoute";
 import Layout from "./components/Layout";
 
@@ -23,6 +24,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <UsersList />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/recent-chats"        // ✅ New ChatList Route
+            element={
+              <ProtectedRoute>
+                <ChatList />
               </ProtectedRoute>
             }
           />
