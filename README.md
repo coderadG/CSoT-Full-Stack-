@@ -24,15 +24,15 @@ Below are some screenshots to showcase the main flows and UI:
 
 ### 2. Login Page (Dark Mode)
 
-![Login Dark](assets/2.png)
+![Login Dark](assets/Screenshot%202025-10-30%20225022%20-%20Copy.png)
 
 ### 3. Users List (Choose Someone to Chat)
 
-![Users List](assets/3.png)
+![Users List](assets/Screenshot%202025-10-30%20225123.png)
 
 ### 4. Chat Window
 
-![Chat Window](assets/4.png)
+![Chat Window](assets/Screenshot%202025-10-30%20225200.png)
 
 ## Getting Started
 
