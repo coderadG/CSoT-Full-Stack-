@@ -1,36 +1,38 @@
 # CSoT-Full-Stack-
 
-A full-stack project built primarily with **JavaScript** (78.2%), **CSS** (18%), and **HTML** (3.8%).
+**SparkChat** , a full-stack chat application built with **JavaScript** (78.2%), **CSS** (18%), and **HTML** (3.8%).
 
 ## Overview
 
-CSoT-Full-Stack- is designed to offer a robust and modern web application experience. This repository contains both frontend and backend code, showcasing a dynamic UI and responsive design.
+CSoT-Full-Stack- is a modern chat web app that offers intuitive user interactions, clean design, and support for both light and dark modes.
 
 ## Features
 
-- Interactive user interface built with JavaScript
-- Stylish components using CSS
-- Semantic HTML structure
-- Scalable, modular codebase
+- Secure authentication (login/register)
+- Light and dark UI themes
+- Real-time chat interface
+- User list and chat selection
+- Responsive design
 
 ## UI Screenshots
 
-Below are some screenshots of the user interface.  
-**To add images:**  
-1. Place your UI images (e.g., `ui-home.png`, `ui-dashboard.png`) in a folder such as `assets/` or alongside your README.
-2. Reference them as shown below.
+Below are some screenshots to showcase the main flows and UI:
 
-### Home Page
+### 1. Login Page (Light Mode)
 
-![Home UI](assets/ui-home.png)
+![Login Light](assets/1.png)
 
-### Dashboard
+### 2. Login Page (Dark Mode)
 
-![Dashboard UI](assets/ui-dashboard.png)
+![Login Dark](assets/2.png)
 
-### Mobile View
+### 3. Users List (Choose Someone to Chat)
 
-![Mobile UI](assets/ui-mobile.png)
+![Users List](assets/3.png)
+
+### 4. Chat Window
+
+![Chat Window](assets/4.png)
 
 ## Getting Started
 
@@ -44,7 +46,7 @@ Below are some screenshots of the user interface.
    npm install
    ```
 
-3. **Run the app:**
+3. **Run the application:**
    ```bash
    npm start
    ```
@@ -57,7 +59,8 @@ Below are some screenshots of the user interface.
 
 ## Contributing
 
-Contributions are welcome! Please open issues or submit pull requests for improvements and bug fixes.
+Contributions are welcome!  
+Feel free to open issues or submit pull requests.
 
 ## License
 
