@@ -20,7 +20,7 @@ Below are some screenshots to showcase the main flows and UI:
 
 ### 1. Login Page (Light Mode)
 
-![Login Light](assets/1.png)
+![Login Light](assets/Screenshot 2025-10-30 225006 - Copy.png)
 
 ### 2. Login Page (Dark Mode)
 
