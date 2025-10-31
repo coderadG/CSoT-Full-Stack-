@@ -38,7 +38,7 @@ Below are some screenshots to showcase the main flows and UI:
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/coderadG/CSoT-Full-Stack-.git
+   git clone https://github.com/coderadG/SparkChat.git
    ```
 
 2. **Install dependencies:**
